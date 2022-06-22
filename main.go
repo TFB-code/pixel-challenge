@@ -18,6 +18,4 @@ func main() {
 	referenceImage.pixel = append(referenceImage.pixel, pix)
 	fmt.Println(referenceImage)
 
-	// TODO read a byte.
-
 }

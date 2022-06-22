@@ -23,10 +23,14 @@ func openReferenceFile(filename string) *os.File {
 }
 
 func readPixel(file *os.File) (pixel, error) {
+	var pixel pixel
 	pixelBytes := make([]byte, 3)
 	readCounter, err := file.Read(pixelBytes)
 	if readCounter < 3 {
 		log.Fatalf("error - unexpected end of file %v", file.Name())
 	}
-	return pixel{}, err
+	pixel.red = int(pixelBytes[0])
+	pixel.green = int(pixelBytes[1])
+	pixel.blue = int(pixelBytes[2])
+	return pixel, err
 }
