@@ -36,7 +36,7 @@ func outputResults(table []tableEntry) {
 	fmt.Println()
 	for entry := range table {
 		filename := table[entry].filename
-		fmt.Printf("  %s     %v matches       %06.3f%%\n", filename[len(filename)-16:],
+		fmt.Printf("  %s      %v matches      %06.3f%%\n", filename[len(filename)-16:],
 			table[entry].matches,
 			table[entry].matchPercentage)
 	}
