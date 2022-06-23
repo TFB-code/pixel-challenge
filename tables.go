@@ -33,7 +33,11 @@ func calculatePercentages(table []tableEntry, numberOfPixels float64) {
 }
 
 func outputResults(table []tableEntry) {
+	fmt.Println()
 	for entry := range table {
-		fmt.Printf("%s  matches  %v  %.3f%%\n", table[entry].filename, table[entry].matches, table[entry].matchPercentage)
+		filename := table[entry].filename
+		fmt.Printf("  %s     %v matches       %06.3f%%\n", filename[len(filename)-16:],
+			table[entry].matches,
+			table[entry].matchPercentage)
 	}
 }
