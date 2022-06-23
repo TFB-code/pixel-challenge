@@ -1,6 +1,8 @@
 package main
 
-import "io/fs"
+import (
+	"io/fs"
+)
 
 func populateTable(list []fs.FileInfo) []tableEntry {
 
@@ -8,10 +10,8 @@ func populateTable(list []fs.FileInfo) []tableEntry {
 	table := make([]tableEntry, tableLength)
 
 	for i, v := range list {
-		table[i] = tableEntry{v.Name(), 0, 0}
+		table[i] = tableEntry{v.Name(), nil, 0, 0}
 	}
 
 	return table
 }
-
-func compare() {}

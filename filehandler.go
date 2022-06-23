@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"io/fs"
 	"log"
 	"os"
@@ -26,12 +27,21 @@ func open(name string) *os.File {
 	return pointer
 }
 
+func resetFilePointer(file *os.File) {
+	file.Seek(0, 0)
+}
+
+func pixelCount(file *os.File) float64 {
+	fileInfo, _ := file.Stat()
+	return float64(fileInfo.Size() / 3)
+}
+
 func readPixel(file *os.File) pixel {
 
 	var pixel pixel
 	pixelBytes := make([]byte, 3)
 	readCounter, err := file.Read(pixelBytes)
-	if err != nil {
+	if err != nil && err != io.EOF {
 		log.Fatal(err)
 	}
 
