@@ -26,28 +26,40 @@ func open(name string) *os.File {
 	return pointer
 }
 
-func readPixel(file *os.File) (pixel, error) {
+func readPixel(file *os.File) pixel {
+
 	var pixel pixel
 	pixelBytes := make([]byte, 3)
 	readCounter, err := file.Read(pixelBytes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if readCounter < 3 {
 		log.Fatalf("error - unexpected end of file %v", file.Name())
 	}
+
 	pixel.red = int(pixelBytes[0])
 	pixel.green = int(pixelBytes[1])
 	pixel.blue = int(pixelBytes[2])
-	return pixel, err
+
+	return pixel
 }
 
-func filterFilelist(directory *os.File, exclude *os.File) []fs.DirEntry {
-
-	exclusionFileInfo, _ := exclude.Stat()
+func makeFilelist(directory *os.File) []fs.DirEntry {
 
 	filelist, err := directory.ReadDir(0)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var filteredList []fs.DirEntry
+	return filelist
+}
+
+func filterFilelist(filelist []fs.DirEntry, exclude *os.File) []fs.FileInfo {
+
+	exclusionFileInfo, _ := exclude.Stat()
+
+	var filteredList []fs.FileInfo
 	for _, v := range filelist {
 
 		currentFileName := strings.ToLower(v.Name())
@@ -56,7 +68,7 @@ func filterFilelist(directory *os.File, exclude *os.File) []fs.DirEntry {
 		}
 		currentFileInfo, _ := v.Info()
 		if !os.SameFile(currentFileInfo, exclusionFileInfo) {
-			filteredList = append(filteredList, v)
+			filteredList = append(filteredList, currentFileInfo)
 		}
 	}
 	return filteredList

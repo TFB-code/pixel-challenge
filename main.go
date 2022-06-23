@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 func main() {
 
-	var referenceImage image
 	searchdir, filename := parseCommandLineArgs()
 
 	referenceFile := open(searchdir + filename)
@@ -16,17 +14,13 @@ func main() {
 	directory := open(searchdir)
 	defer directory.Close()
 
-	filelist := filterFilelist(directory, referenceFile)
+	filelist := makeFilelist(directory)
+	filteredFilelist := filterFilelist(filelist, referenceFile)
 
-	pix, err := readPixel(referenceFile)
-	if err != nil {
-		log.Fatal(err)
+	pix := readPixel(referenceFile)
+	for _, v := range filteredFilelist {
+		fmt.Println(v.Name(), " pixels ", v.Size()/3, " filesize ", v.Size())
 	}
-	referenceImage.pixel = append(referenceImage.pixel, pix)
-	fmt.Println(referenceImage)
-
-	for _, v := range filelist {
-		fmt.Println(v.Name())
-	}
-
+	fmt.Println()
+	fmt.Println(pix)
 }
