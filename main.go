@@ -17,10 +17,12 @@ func main() {
 	filelist := makeFilelist(directory)
 	filteredFilelist := filterFilelist(filelist, referenceFile)
 
-	pix := readPixel(referenceFile)
+	table := populateTable(filteredFilelist)
+
 	for _, v := range filteredFilelist {
 		fmt.Println(v.Name(), " pixels ", v.Size()/3, " filesize ", v.Size())
 	}
-	fmt.Println()
+	fmt.Println(table)
+	pix := readPixel(referenceFile)
 	fmt.Println(pix)
 }
