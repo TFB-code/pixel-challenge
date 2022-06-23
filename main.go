@@ -6,10 +6,17 @@ import (
 )
 
 func main() {
+
 	var referenceImage image
 	searchdir, filename := parseCommandLineArgs()
-	referenceFile := openReferenceFile(searchdir + filename)
+
+	referenceFile := open(searchdir + filename)
 	defer referenceFile.Close()
+
+	directory := open(searchdir)
+	defer directory.Close()
+
+	filelist := filterFilelist(directory, referenceFile)
 
 	pix, err := readPixel(referenceFile)
 	if err != nil {
@@ -17,5 +24,9 @@ func main() {
 	}
 	referenceImage.pixel = append(referenceImage.pixel, pix)
 	fmt.Println(referenceImage)
+
+	for _, v := range filelist {
+		fmt.Println(v.Name())
+	}
 
 }
