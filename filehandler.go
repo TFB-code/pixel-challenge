@@ -27,17 +27,12 @@ func open(name string) *os.File {
 	return pointer
 }
 
-func resetFilePointer(file *os.File) {
-	file.Seek(0, 0)
-}
-
 func pixelCount(file *os.File) float64 {
 	fileInfo, _ := file.Stat()
 	return float64(fileInfo.Size() / 3)
 }
 
 func readPixel(file *os.File) pixel {
-
 	var pixel pixel
 	pixelBytes := make([]byte, 3)
 	readCounter, err := file.Read(pixelBytes)
@@ -82,4 +77,16 @@ func filterFilelist(filelist []fs.DirEntry, exclude *os.File) []fs.FileInfo {
 		}
 	}
 	return filteredList
+}
+
+func openTabulatedFiles(table []tableEntry, searchdir string) {
+	for entry := range table {
+		table[entry].filePointer = open(searchdir + table[entry].filename)
+	}
+}
+
+func closeTabulatedFiles(table []tableEntry) {
+	for entry := range table {
+		table[entry].filePointer.Close()
+	}
 }

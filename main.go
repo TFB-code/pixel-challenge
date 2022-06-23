@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 func main() {
 
 	searchdir, filename := parseCommandLineArgs()
@@ -21,26 +17,16 @@ func main() {
 
 	table := populateTable(filteredFilelist)
 
-	for entry := range table {
-		table[entry].filePointer = open(searchdir + table[entry].filename)
-		defer table[entry].filePointer.Close()
-	}
+	openTabulatedFiles(table, searchdir)
+	defer closeTabulatedFiles(table)
 
 	for count := float64(0); count < numberOfPixels; count = count + 1 {
-		pixel := readPixel(referenceFile)
-		for entry := range table {
-			if pixel == readPixel(table[entry].filePointer) {
-				table[entry].matches = table[entry].matches + 1
-			}
-		}
+		pixel1 := readPixel(referenceFile)
+		findMatches(table, pixel1)
 	}
 
-	for entry := range table {
-		table[entry].matchPercentage = (table[entry].matches / numberOfPixels) * 100
-	}
+	calculatePercentages(table, numberOfPixels)
 
-	for i, v := range filteredFilelist {
-		fmt.Println(v.Name(), " pixels ", v.Size()/3, " % ", table[i].matchPercentage)
-	}
+	outputResults(table)
 
 }
