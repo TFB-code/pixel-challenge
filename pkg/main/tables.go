@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/fs"
+	"sort"
 )
 
 func populateTable(list []fs.FileInfo) []tableEntry {
@@ -30,6 +31,12 @@ func calculatePercentages(table []tableEntry, numberOfPixels float64) {
 	for entry := range table {
 		table[entry].matchPercentage = (table[entry].matches / numberOfPixels) * 100
 	}
+}
+
+func sortByPercentage(table []tableEntry) {
+	sort.Slice(table, func(i, j int) bool {
+		return table[i].matchPercentage > table[j].matchPercentage
+	})
 }
 
 func outputResults(table []tableEntry) {

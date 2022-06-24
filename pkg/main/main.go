@@ -27,6 +27,8 @@ func main() {
 
 	calculatePercentages(table, numberOfPixels)
 
-	outputResults(table)
+	sortByPercentage(table)
+
+	outputResults(table[:3])
 
 }
