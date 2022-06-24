@@ -1,4 +1,4 @@
 @echo.
-@call batch/test.bat
+@call scripts/test.bat
 @echo.
-@call batch/bench.bat
+@call scripts/bench.bat

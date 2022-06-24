@@ -1,1 +1,1 @@
-@call batch/run.bat %*
+@call scripts/run.bat %*
