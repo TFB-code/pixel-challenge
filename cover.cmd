@@ -1,0 +1,1 @@
+@call scripts/cover.bat

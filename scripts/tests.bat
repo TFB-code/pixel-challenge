@@ -1,3 +1,3 @@
 @cd pkg\main
-@pixchallenge.exe %*
+@go test -bench=. -v
 @cd ..\..
