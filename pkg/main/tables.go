@@ -39,7 +39,12 @@ func sortByPercentage(table []tableEntry) {
 	})
 }
 
-func outputResults(table []tableEntry) {
+func outputResults(table []tableEntry, count int) {
+
+	if count < len(table) {
+		table = table[:count]
+	}
+
 	fmt.Println()
 	for entry := range table {
 		filename := table[entry].filename

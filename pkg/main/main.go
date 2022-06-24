@@ -29,12 +29,7 @@ func main() {
 
 	sortByPercentage(table)
 
-	results := len(table)
-	if results > 3 {
-		results = 3
-	}
+	outputResults(table, 3)
 
-	outputResults(table[:results])
-
-	outputResults(table)
+	outputResults(table[3:], 9)
 }
